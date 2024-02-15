@@ -1,5 +1,9 @@
 <?php
 
+use App\Helpers\ResponseHelper;
+use App\Http\Controllers\Api\AuthController;
+use App\Http\Controllers\Api\CategoryController;
+use App\Http\Controllers\Api\ProfileController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -14,6 +18,11 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('test', function () {
-    return "Hello, world!";
+Route::post('register', [AuthController::class,'register']);
+Route::post('login', [AuthController::class,'login']);
+
+Route::middleware(['auth:api'])->group(function(){
+    Route::get('profile',[ProfileController::class,'profile']);
+    Route::post('logout',[AuthController::class,'logout']);
+    Route::get('categories',[CategoryController::class,'index']);
 });
